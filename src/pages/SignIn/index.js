@@ -12,6 +12,8 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Copyright(props) {
     return (
@@ -29,12 +31,15 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn() {
+    const navigate = useNavigate();
+
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
+        axios.get(`http://localhost:8080/user/${data.get('email')}`).then((response) => {
+            if (response.data.email === data.get('email') && response.data.password === data.get('password')) {
+                navigate('/');
+            }
         });
     };
 
