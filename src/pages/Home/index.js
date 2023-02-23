@@ -1,5 +1,12 @@
+import { Box } from '@mui/material';
+import Slider from '~/components/Slider';
+
 function Home() {
-    return <h2>Home Page</h2>;
+    return (
+        <Box>
+            <Slider />
+        </Box>
+    );
 }
 
 export default Home;
