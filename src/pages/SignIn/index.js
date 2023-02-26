@@ -9,7 +9,7 @@ import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
@@ -19,7 +19,7 @@ function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
+            <Link color="inherit" href="https://www.facebook.com/profile.php?id=100007430475783">
                 Canteen PTIT
             </Link>{' '}
             {new Date().getFullYear()}
@@ -30,6 +30,13 @@ function Copyright(props) {
 
 const theme = createTheme();
 
+const currentUser = {
+    email: '',
+    password: '',
+    status: '',
+    role: '',
+};
+
 export default function SignIn() {
     const navigate = useNavigate();
 
@@ -38,6 +45,11 @@ export default function SignIn() {
         const data = new FormData(event.currentTarget);
         axios.get(`http://localhost:8080/user/${data.get('email')}`).then((response) => {
             if (response.data.email === data.get('email') && response.data.password === data.get('password')) {
+                currentUser.email = response.data.email;
+                currentUser.password = response.data.password;
+                currentUser.status = response.data.status;
+                currentUser.role = response.data.role;
+
                 navigate('/');
             }
         });
@@ -70,13 +82,13 @@ export default function SignIn() {
                             alignItems: 'center',
                         }}
                     >
-                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                            <LockOutlinedIcon />
+                        <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+                            <AccountCircleIcon />
                         </Avatar>
                         <Typography component="h1" variant="h5">
                             Sign in
                         </Typography>
-                        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
                             <TextField
                                 margin="normal"
                                 required
@@ -125,3 +137,5 @@ export default function SignIn() {
         </ThemeProvider>
     );
 }
+
+export { currentUser };

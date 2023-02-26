@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from '~/routes';
 import { ThemeProvider } from '@mui/system';
 import theme from './styles/theme';
+import DefaultLayout from './layouts/DefaultLayout';
+import { Fragment } from 'react';
 
 function App() {
     return (
@@ -10,6 +12,13 @@ function App() {
                 <Routes>
                     {publicRoutes.map((route, index) => {
                         const Page = route.component;
+                        let Layout = DefaultLayout;
+
+                        if (route.layout) {
+                            Layout = route.layout;
+                        } else if (route.layout === null) {
+                            Layout = Fragment;
+                        }
 
                         return (
                             <Route
@@ -17,7 +26,9 @@ function App() {
                                 path={route.path}
                                 element={
                                     <ThemeProvider theme={theme}>
-                                        <Page />
+                                        <Layout>
+                                            <Page />
+                                        </Layout>
                                     </ThemeProvider>
                                 }
                             />

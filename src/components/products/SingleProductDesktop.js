@@ -32,7 +32,7 @@ export default function SingleProductDesktop({ product, matches }) {
         <>
             <Product onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                 <ProductImage src={product.image} />
-                <ProductFavoriteButton isfav={1}>
+                <ProductFavoriteButton isfav={0}>
                     <FavoriteIcon />
                 </ProductFavoriteButton>
 

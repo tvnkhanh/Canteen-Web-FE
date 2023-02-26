@@ -32,7 +32,7 @@ export const ProductActionButton = styled(IconButton)(() => ({
 }));
 
 export const ProductFavoriteButton = styled(ProductActionButton)(({ isfav, theme }) => ({
-    color: isfav ? Colors.primary : Colors.light,
+    color: isfav ? Colors.secondary : Colors.light,
 
     [theme.breakpoints.up('md')]: {
         position: 'absolute',
@@ -46,20 +46,21 @@ export const ProductAddToCart = styled(Button, {
 })(({ show, theme }) => ({
     width: '120px',
     fontSize: '12px',
+    fontWeight: 'bold',
 
     [theme.breakpoints.up('md')]: {
         position: 'absolute',
         bottom: '2%',
         width: '300px',
         padding: '10px 5px',
-        animation: show && `${slideInBottom} 0.5s cubic-bezier(0.250 0.460 0.450 0.940) both`,
+        animation: show && `${slideInBottom} 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
     },
 
     background: Colors.secondary,
     opacity: 0.9,
 }));
 
-export const ProductMetaWrapper = styled(Box)(({ theme }) => ({
+export const ProductMetaWrapper = styled(Box)(() => ({
     padding: 4,
     display: 'flex',
     flexDirection: 'column',
@@ -74,6 +75,6 @@ export const ProductActionWrapper = styled(Box, {
         position: 'absolute',
         right: 0,
         top: '20%',
-        animation: show && `${slideInRight} 0.5s cubic-bezier(0.250 0.460 0.450 0.940) both`,
+        animation: show && `${slideInRight} 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
     },
 }));

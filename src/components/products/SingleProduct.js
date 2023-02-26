@@ -24,7 +24,7 @@ export default function SingleProduct({ product, matches }) {
                 <ProductMeta product={product} matches={matches} />
                 <ProductActionWrapper>
                     <Stack direction="row">
-                        <ProductFavoriteButton isfav={1}>
+                        <ProductFavoriteButton isfav={0}>
                             <FavoriteIcon />
                         </ProductFavoriteButton>
 
