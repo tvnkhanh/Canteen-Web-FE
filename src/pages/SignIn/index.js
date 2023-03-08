@@ -5,21 +5,22 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { successAccount } from '../SignUp';
+import { Colors } from '~/styles/theme';
 
 function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
-            <Link color="inherit" href="https://www.facebook.com/profile.php?id=100007430475783">
+            <Link to="https://www.facebook.com/profile.php?id=100007430475783" style={{ color: Colors.light_blue }}>
                 Canteen PTIT
             </Link>{' '}
             {new Date().getFullYear()}
@@ -31,8 +32,8 @@ function Copyright(props) {
 const theme = createTheme();
 
 const currentUser = {
+    userId: '',
     email: '',
-    password: '',
     status: '',
     role: '',
 };
@@ -43,10 +44,13 @@ export default function SignIn() {
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
+        axios.get(`http://localhost:8080/user-id/${data.get('email')}`).then((res) => {
+            currentUser.userId = res.data;
+        });
+
         axios.get(`http://localhost:8080/user/${data.get('email')}`).then((response) => {
             if (response.data.email === data.get('email') && response.data.password === data.get('password')) {
                 currentUser.email = response.data.email;
-                currentUser.password = response.data.password;
                 currentUser.status = response.data.status;
                 currentUser.role = response.data.role;
 
@@ -99,6 +103,7 @@ export default function SignIn() {
                                 type="email"
                                 autoComplete="email"
                                 autoFocus
+                                value={successAccount.email && successAccount.email}
                             />
                             <TextField
                                 margin="normal"
@@ -119,12 +124,12 @@ export default function SignIn() {
                             </Button>
                             <Grid container>
                                 <Grid item xs>
-                                    <Link href="#" variant="body2">
+                                    <Link to="#" style={{ color: Colors.light_blue }} variant="body2">
                                         Forgot password?
                                     </Link>
                                 </Grid>
                                 <Grid item>
-                                    <Link href="/signup" variant="body2">
+                                    <Link to="/signup" style={{ color: Colors.light_blue }} variant="body2">
                                         {"Don't have an account? Sign Up"}
                                     </Link>
                                 </Grid>

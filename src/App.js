@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from '~/routes';
-import { ThemeProvider } from '@mui/system';
+import { ThemeProvider } from '@mui/material/styles';
 import theme from './styles/theme';
 import DefaultLayout from './layouts/DefaultLayout';
 import { Fragment } from 'react';

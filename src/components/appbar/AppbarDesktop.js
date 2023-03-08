@@ -1,18 +1,25 @@
-import { Box, Link, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Box, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { AppBarContainer, AppBarHeader, MyList } from '~/styles/appbar';
 import SearchIcon from '@mui/icons-material/Search';
 import Actions from './Actions';
 import { useUIContext } from '~/context/ui';
+import { Link } from 'react-router-dom';
+import { Colors } from '~/styles/theme';
 
 export default function AppBarDesktop({ matches }) {
     const { setShowSearchBox } = useUIContext();
 
     return (
         <AppBarContainer>
-            <AppBarHeader variant="h4">Canteen</AppBarHeader>
+            <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+                <AppBarHeader variant="h4">Canteen</AppBarHeader>
+            </Link>
             <MyList type="row">
                 <Box display="flex">
-                    <Link href="/" sx={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+                    <Link
+                        to="/"
+                        style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', color: Colors.black }}
+                    >
                         <ListItemButton>
                             <ListItemText primary="Home" />
                         </ListItemButton>
@@ -31,7 +38,7 @@ export default function AppBarDesktop({ matches }) {
                     </ListItemButton>
                 </Box>
 
-                <ListItemButton onClick={() => setShowSearchBox(true)}>
+                <ListItemButton sx={{ ml: 20 }} onClick={() => setShowSearchBox(true)}>
                     <ListItemIcon>
                         <SearchIcon />
                     </ListItemIcon>

@@ -2,7 +2,7 @@ import { createTheme } from '@mui/material/styles';
 import { lighten } from 'polished';
 
 export const Colors = {
-    primary: '#000000',
+    primary: '#5f2c3e',
     secondary: '#fe2c55',
     success: '#4CAF50',
     info: '#00a2ff',
@@ -17,6 +17,7 @@ export const Colors = {
     ///////////////
     // Grays
     ///////////////
+    light_blue: '#1976d2',
     dim_grey: '#696969',
     dove_gray: '#d5d5d5',
     body_bg: '#f3f6f9',
@@ -43,6 +44,7 @@ const theme = createTheme({
             defaultProps: {
                 disableElevation: true,
                 disableFocusRipple: true,
+                disableRipple: true,
             },
         },
 
@@ -74,7 +76,8 @@ const theme = createTheme({
                 primary: {
                     background: Colors.primary,
                     '&:hover': {
-                        background: lighten(0.05, Colors.primary),
+                        // background: lighten(0.1, Colors.primary),
+                        background: Colors.secondary,
                     },
                 },
                 secondary: {

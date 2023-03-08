@@ -1,5 +1,11 @@
+import { CartComponent } from '~/components/cart';
+
 function Cart() {
-    return;
+    return (
+        <>
+            <CartComponent />
+        </>
+    );
 }
 
 export default Cart;

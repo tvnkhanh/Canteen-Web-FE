@@ -3,9 +3,9 @@ import { useEffect, useRef, useState } from 'react';
 import { AdvertisementContainer, MessageText } from '~/styles/advertisement';
 
 const messages = [
-    '20% off on your first order!',
-    'Summer sales start now, visit any store.',
-    'Please buy something, you fucking bitch',
+    'Căn tin học viện công nghệ bưu chính viễn thông!',
+    'Thực đơn, đồ ăn vặt, đồ uống đa dạng',
+    'Rất hân hạnh khi được phục vụ các bạn sinh viên',
 ];
 
 export default function Advertisement() {

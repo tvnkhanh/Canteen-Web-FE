@@ -6,13 +6,13 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { currentUser } from '~/pages/SignIn';
-import { Link } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { Colors } from '~/styles/theme';
 
 export default function AccountMenu() {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -24,15 +24,15 @@ export default function AccountMenu() {
         setAnchorEl(null);
     };
     const handleLogout = () => {
+        currentUser.userId = '';
         currentUser.email = '';
-        currentUser.password = '';
         currentUser.status = '';
         currentUser.role = '';
     };
 
     return (
         <React.Fragment>
-            <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center', ml: 3, mr: 3 }}>
                 <Tooltip title="Account settings">
                     <IconButton
                         onClick={handleClick}
@@ -41,7 +41,7 @@ export default function AccountMenu() {
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                     >
-                        <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                        <Avatar sx={{ width: 32, height: 32 }}></Avatar>
                     </IconButton>
                 </Tooltip>
             </Box>
@@ -80,9 +80,11 @@ export default function AccountMenu() {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem onClick={handleClose}>
-                    <Avatar /> Profile
-                </MenuItem>
+                <Link to="/profile" style={{ textDecoration: 'none', color: Colors.black }}>
+                    <MenuItem onClick={handleClose}>
+                        <Avatar /> Profile
+                    </MenuItem>
+                </Link>
                 <MenuItem onClick={handleClose}>
                     <Avatar /> My account
                 </MenuItem>
@@ -100,7 +102,10 @@ export default function AccountMenu() {
                     Settings
                 </MenuItem>
                 <MenuItem onClick={handleLogout}>
-                    <Link href="/signin" sx={{ textDecoration: 'none' }} display="flex" alignItems="center">
+                    <Link
+                        to="/signin"
+                        style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', color: Colors.black }}
+                    >
                         <ListItemIcon>
                             <Logout fontSize="small" />
                         </ListItemIcon>

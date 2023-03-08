@@ -14,6 +14,7 @@ import ProductMeta from './ProductMeta';
 import { useState } from 'react';
 import useDialogModel from '~/hooks/useDialogModel';
 import ProductDetail from '../productdetail';
+import axios from 'axios';
 
 export default function SingleProductDesktop({ product, matches }) {
     const [showOptions, setShowOptions] = useState(false);
@@ -24,6 +25,10 @@ export default function SingleProductDesktop({ product, matches }) {
 
     const handleMouseLeave = () => {
         setShowOptions(false);
+    };
+
+    const handleAddToCart = () => {
+        axios.post(`http://localhost:8080/addtocart/1/${product.productId}`);
     };
 
     const [ProductDetailDialog, showProductDetailDialog, closeProductDetailDialog] = useDialogModel(ProductDetail);
@@ -37,7 +42,7 @@ export default function SingleProductDesktop({ product, matches }) {
                 </ProductFavoriteButton>
 
                 {showOptions && (
-                    <ProductAddToCart show={showOptions} variant="contained">
+                    <ProductAddToCart show={showOptions} variant="contained" onClick={handleAddToCart}>
                         Add to Cart
                     </ProductAddToCart>
                 )}

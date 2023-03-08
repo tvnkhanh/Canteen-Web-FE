@@ -18,8 +18,8 @@ export default function Banner() {
         <BannerContainer>
             <BannerImage src={imageTest} />
             <BannerContent>
-                <Typography variant="h6">Huge Collections</Typography>
-                <BannerTitle variant="h2">New Bags</BannerTitle>
+                <Typography variant="h6">Delicious Fish All The Time</Typography>
+                <BannerTitle variant="h2">Kokofish</BannerTitle>
                 <BannerDescription variant="subtitle">
                     Lorem ipsum dolor sit amet, consectetur adip incididunt ut labore et dolore magna aliqu
                 </BannerDescription>

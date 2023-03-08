@@ -1,9 +1,12 @@
-import { Divider, Link, ListItemButton, ListItemIcon } from '@mui/material';
+import { Divider, ListItemButton, ListItemIcon } from '@mui/material';
 import { ActionIconContainerDesktop, ActionIconContainerMobile, MyList } from '~/styles/appbar';
 import { Favorite, ShoppingCart } from '@mui/icons-material';
 import { Colors } from '~/styles/theme';
 
 import AccountMenu from './AccountMenu';
+import { Link } from 'react-router-dom';
+import { currentUser } from '~/pages/SignIn';
+import SignInSignUpBtn from './SignInSignUpBtn';
 
 export default function Actions({ matches }) {
     const Component = matches ? ActionIconContainerMobile : ActionIconContainerDesktop;
@@ -12,7 +15,7 @@ export default function Actions({ matches }) {
         <Component>
             <MyList type="row">
                 <ListItemButton sx={{ justifyContent: 'center' }}>
-                    <Link href="/cart">
+                    <Link to="/cart">
                         <ListItemIcon
                             sx={{ display: 'flex', justifyContent: 'center', color: matches && Colors.secondary }}
                         >
@@ -24,7 +27,7 @@ export default function Actions({ matches }) {
                 <Divider orientation="vertical" flexItem sx={{ width: 0 }} />
 
                 <ListItemButton sx={{ justifyContent: 'center' }}>
-                    <Link href="/favorite">
+                    <Link to="/favorite">
                         <ListItemIcon
                             sx={{ display: 'flex', justifyContent: 'center', color: matches && Colors.secondary }}
                         >
@@ -35,9 +38,7 @@ export default function Actions({ matches }) {
 
                 <Divider orientation="vertical" flexItem sx={{ width: 0 }} />
 
-                <ListItemButton sx={{ justifyContent: 'center' }}>
-                    <AccountMenu />
-                </ListItemButton>
+                {currentUser.userId !== '' ? <AccountMenu /> : <SignInSignUpBtn />}
 
                 <Divider orientation="vertical" flexItem sx={{ width: 0 }} />
             </MyList>

@@ -13,9 +13,14 @@ import {
 import ProductMeta from './ProductMeta';
 import useDialogModel from '~/hooks/useDialogModel';
 import ProductDetail from '../productdetail';
+import axios from 'axios';
 
 export default function SingleProduct({ product, matches }) {
     const [ProductDetailDialog, showProductDetailDialog, closeProductDetailDialog] = useDialogModel(ProductDetail);
+
+    const handleAddToCart = () => {
+        axios.post(`http://localhost:8080/addtocart/1/${product.productId}`);
+    };
 
     return (
         <>
@@ -39,7 +44,9 @@ export default function SingleProduct({ product, matches }) {
                 </ProductActionWrapper>
             </Product>
 
-            <ProductAddToCart variant="contained">Add to cart</ProductAddToCart>
+            <ProductAddToCart variant="contained" onClick={handleAddToCart}>
+                Add to cart
+            </ProductAddToCart>
 
             <ProductDetailDialog product={product} />
         </>

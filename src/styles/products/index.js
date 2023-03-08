@@ -16,7 +16,8 @@ export const Product = styled(Box)(({ theme }) => ({
 
 export const ProductImage = styled('img')(({ src, theme }) => ({
     src: `url(${src})`,
-    width: '100%',
+    width: '300px',
+    height: '320px',
     background: Colors.light_gray,
     padding: '10px',
 
@@ -56,7 +57,7 @@ export const ProductAddToCart = styled(Button, {
         animation: show && `${slideInBottom} 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
     },
 
-    background: Colors.secondary,
+    background: Colors.primary,
     opacity: 0.9,
 }));
 
