@@ -1,14 +1,16 @@
 import { Button } from '@mui/material';
-import axios from 'axios';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { currentUser } from '~/pages/SignIn';
-// import { orders } from '~/data';
 import { CartPayment, CartWrapper } from '~/styles/cart';
 import { Colors } from '~/styles/theme';
 import CartItem from './CartItem';
+import { orders } from '../appbar/Actions';
 
-let orders = [];
+const data = [];
+
+function createData(orderId, productId, quantity, date, name, price, inStock, image, description) {
+    return { orderId, productId, quantity, date, name, price, inStock, image, description };
+}
 
 export function CartComponent() {
     const [value, setValue] = useState();
@@ -17,24 +19,31 @@ export function CartComponent() {
         setValue({});
     };
 
-    useEffect(() => {
-        const id = setInterval(() => {
-            console.log('trigger');
-            refresh();
-        }, 1000);
-        return () => clearInterval(id);
-    }, []);
+    useMemo(() => refresh(), []);
 
-    axios.get(`http://localhost:8080/carts/${currentUser.userId}`).then((response) => {
-        orders = response.data;
-    });
-
-    const renderOrder = (orders) =>
+    if (data.length === 0) {
         orders.map((order) => {
-            return <CartItem order={order} key={order.id} />;
+            data.push(
+                createData(
+                    order.orderId,
+                    order.productId,
+                    order.date,
+                    order.name,
+                    order.price,
+                    order.quantity,
+                    order.image,
+                    order.description,
+                    order.inStock,
+                ),
+            );
+        });
+    }
+
+    const renderOrder = (data) =>
+        orders.map((orderItem) => {
+            return <CartItem order={orderItem} key={orderItem.id} />;
         });
 
-    console.log(orders);
     return (
         <>
             <CartWrapper>{renderOrder(orders)}</CartWrapper>

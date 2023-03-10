@@ -7,14 +7,16 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import axios from 'axios';
 
-export default function InDec({ refresh, order }) {
+export default function InDec({ order }) {
     const clampV = clamp(1, 100);
     const [value, setValue] = useState(1);
     useEffect(() => {
-        if (order.quantity !== undefined) {
-            setValue(order.quantity);
+        if (order !== undefined) {
+            if (order.quantity !== undefined) {
+                setValue(order.quantity);
+            }
         }
-    }, [order.quantity]);
+    }, []);
 
     return (
         <Box display="flex">
@@ -23,14 +25,15 @@ export default function InDec({ refresh, order }) {
                     borderRadius: 0,
                     background: `${Colors.secondary}`,
                 }}
-                onClick={() => {
+                onClick={async () => {
                     setValue(clampV(value - 1));
-                    if (value !== 1) {
-                        axios.post(`http://localhost:8080/cart/${order.orderId}/${order.productId}/${order.quantity}`);
-                        return order.quantity--;
+                    if (order !== undefined) {
+                        if (value !== 1) {
+                            await axios.post(
+                                `http://localhost:8080/cart/${order.orderId}/${order.productId}/${order.quantity - 1}`,
+                            );
+                        }
                     }
-
-                    refresh();
                 }}
             >
                 <RemoveIcon />
@@ -51,15 +54,15 @@ export default function InDec({ refresh, order }) {
                     borderRadius: 0,
                     background: `${Colors.secondary}`,
                 }}
-                onClick={() => {
+                onClick={async () => {
                     setValue(clampV(value + 1));
-
-                    if (value !== 100) {
-                        axios.post(`http://localhost:8080/cart/${order.orderId}/${order.productId}/${order.quantity}`);
-                        return order.quantity++;
+                    if (order !== undefined) {
+                        if (value !== 100) {
+                            await axios.post(
+                                `http://localhost:8080/cart/${order.orderId}/${order.productId}/${order.quantity + 1}`,
+                            );
+                        }
                     }
-
-                    refresh();
                 }}
             >
                 <AddIcon />

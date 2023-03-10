@@ -1,9 +1,21 @@
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { useMemo, useState } from 'react';
 import AppBarDesktop from './AppbarDesktop';
 import AppBarMobile from './AppbarMobile';
 
 export default function AppBar() {
+    const [value, setValue] = useState();
+
+    const refresh = () => {
+        setValue({});
+    };
+
+    useMemo(() => {
+        refresh();
+        console.log('trigger');
+    }, []);
+
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down('md'));
 

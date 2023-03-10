@@ -45,7 +45,7 @@ export default function SignUp() {
         const account = {
             email: data.get('email'),
             password: data.get('password'),
-            role: 'USER',
+            roleId: 2,
             status: 'ACTIVE',
         };
 

@@ -31,29 +31,27 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-const currentUser = {
-    userId: '',
-    email: '',
-    status: '',
-    role: '',
-};
-
 export default function SignIn() {
     const navigate = useNavigate();
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        axios.get(`http://localhost:8080/user-id/${data.get('email')}`).then((res) => {
-            currentUser.userId = res.data;
-        });
-
         axios.get(`http://localhost:8080/user/${data.get('email')}`).then((response) => {
-            if (response.data.email === data.get('email') && response.data.password === data.get('password')) {
-                currentUser.email = response.data.email;
-                currentUser.status = response.data.status;
-                currentUser.role = response.data.role;
+            localStorage.setItem('email', response.data[0].email);
+            localStorage.setItem('password', response.data[0].password);
+            localStorage.setItem('userId', response.data[0].userId);
+            localStorage.setItem('role', response.data[0].role);
+            localStorage.setItem('status', response.data[0].status);
+            localStorage.setItem('firstName', response.data[0].firstName);
+            localStorage.setItem('lastName', response.data[0].lastName);
+            localStorage.setItem('phone', response.data[0].phone);
+            localStorage.setItem('gender', response.data[0].gender);
 
+            if (
+                localStorage.getItem('email') === data.get('email') &&
+                localStorage.getItem('password') === data.get('password')
+            ) {
                 navigate('/');
             }
         });
@@ -142,5 +140,3 @@ export default function SignIn() {
         </ThemeProvider>
     );
 }
-
-export { currentUser };

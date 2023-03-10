@@ -10,11 +10,15 @@ import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import { currentUser } from '~/pages/SignIn';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Colors } from '~/styles/theme';
+import axios from 'axios';
+
+let products = [];
 
 export default function AccountMenu() {
+    const navigate = useNavigate();
+
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -24,10 +28,23 @@ export default function AccountMenu() {
         setAnchorEl(null);
     };
     const handleLogout = () => {
-        currentUser.userId = '';
-        currentUser.email = '';
-        currentUser.status = '';
-        currentUser.role = '';
+        localStorage.setItem('email', '');
+        localStorage.setItem('password', '');
+        localStorage.setItem('userId', '');
+        localStorage.setItem('role', '');
+        localStorage.setItem('status', '');
+        localStorage.setItem('firstName', '');
+        localStorage.setItem('lastName', '');
+        localStorage.setItem('phone', '');
+        localStorage.setItem('gender', '');
+    };
+
+    const handleManagementData = async () => {
+        await axios.get('http://localhost:8080/products').then((response) => {
+            products = response.data;
+        });
+
+        navigate('/management/product');
     };
 
     return (
@@ -80,6 +97,13 @@ export default function AccountMenu() {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
+                {localStorage.getItem('role') === 'ADMIN' && (
+                    // <Link to="/management" style={{ textDecoration: 'none', color: Colors.black }}>
+                    <MenuItem onClick={handleManagementData}>
+                        <Avatar /> Management
+                    </MenuItem>
+                    // </Link>
+                )}
                 <Link to="/profile" style={{ textDecoration: 'none', color: Colors.black }}>
                     <MenuItem onClick={handleClose}>
                         <Avatar /> Profile
@@ -116,3 +140,5 @@ export default function AccountMenu() {
         </React.Fragment>
     );
 }
+
+export { products };
