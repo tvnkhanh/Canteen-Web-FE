@@ -13,8 +13,9 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import { FormHelperText } from '@mui/material';
+import { Alert, Collapse, FormHelperText, IconButton } from '@mui/material';
 import { Colors } from '~/styles/theme';
+import CloseIcon from '@mui/icons-material/Close';
 
 function Copyright(props) {
     return (
@@ -37,6 +38,8 @@ const successAccount = {
 
 export default function SignUp() {
     const navigate = useNavigate();
+    const [openErrEmail, setOpenErrEmail] = React.useState();
+    const [openPasswordLength, setOpenPasswordLength] = React.useState();
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -55,15 +58,23 @@ export default function SignUp() {
             email: data.get('email'),
         };
 
+        if (data.get('password').length < 8) {
+            setOpenPasswordLength(true);
+        }
+
         axios.post('http://localhost:8080/account', account).then((response) => {
-            if (response.status === 200) {
-                axios.post('http://localhost:8080/user', user).then((response) => {
-                    if (response.status === 200) {
-                        successAccount.email = response.data.email;
-                        navigate('/signin');
-                    }
-                });
-            }
+            axios.get(`http://localhost:8080/user/${data.get('email')}`).then((response) => {
+                if (response.status === 200) {
+                    setOpenErrEmail(true);
+                } else {
+                    axios.post('http://localhost:8080/user', user).then((response) => {
+                        if (response.status === 200) {
+                            successAccount.email = response.data.email;
+                            navigate('/signin');
+                        }
+                    });
+                }
+            });
         });
     };
 
@@ -151,6 +162,52 @@ export default function SignUp() {
                     </Box>
                 </Box>
                 <Copyright sx={{ mt: 5 }} />
+
+                <Box sx={{ width: '30%', position: 'absolute', top: 40, right: 20 }}>
+                    <Collapse in={openErrEmail}>
+                        <Alert
+                            severity="error"
+                            action={
+                                <IconButton
+                                    aria-label="close"
+                                    color="inherit"
+                                    size="small"
+                                    onClick={() => {
+                                        setOpenErrEmail(false);
+                                    }}
+                                >
+                                    <CloseIcon fontSize="inherit" />
+                                </IconButton>
+                            }
+                            sx={{ mb: 2 }}
+                        >
+                            This email is already exists, please select the others!
+                        </Alert>
+                    </Collapse>
+                </Box>
+
+                <Box sx={{ width: '30%', position: 'absolute', top: 40, right: 20 }}>
+                    <Collapse in={openPasswordLength}>
+                        <Alert
+                            severity="error"
+                            action={
+                                <IconButton
+                                    aria-label="close"
+                                    color="inherit"
+                                    size="small"
+                                    onClick={() => {
+                                        setOpenPasswordLength(false);
+                                    }}
+                                >
+                                    <CloseIcon fontSize="inherit" />
+                                </IconButton>
+                            }
+                            sx={{ mb: 2 }}
+                        >
+                            Password must be longer than 8 character.
+                        </Alert>
+                    </Collapse>
+                </Box>
             </Container>
         </ThemeProvider>
     );

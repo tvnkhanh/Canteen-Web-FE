@@ -35,9 +35,9 @@ export default function AppDrawer() {
 
                     <MiddleDivider />
 
-                    <ListItemButton>
+                    {/* <ListItemButton>
                         <ListItemText>Categories</ListItemText>
-                    </ListItemButton>
+                    </ListItemButton> */}
 
                     <MiddleDivider />
 

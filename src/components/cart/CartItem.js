@@ -6,11 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 export default function CartItem({ order }) {
-    const [value, setValue] = useState();
+    // const [value, setValue] = useState();
 
-    const refresh = () => {
-        setValue({});
-    };
+    // const refresh = () => {
+    //     setValue({});
+    // };
 
     const navigate = useNavigate();
     const handleDelete = async () => {

@@ -18,12 +18,13 @@ export default function Banner() {
         <BannerContainer>
             <BannerImage src={imageTest} />
             <BannerContent>
-                <Typography variant="h6">Delicious Fish All The Time</Typography>
-                <BannerTitle variant="h2">Kokofish</BannerTitle>
+                <Typography variant="h6">Now Available</Typography>
+                <BannerTitle variant="h4">Genshin</BannerTitle>
                 <BannerDescription variant="subtitle">
-                    Lorem ipsum dolor sit amet, consectetur adip incididunt ut labore et dolore magna aliqu
+                    Trải nghiệm cảm giác mạo hiểm cá nhân. Trong vai trò là Nhà Lữ Hành đến từ thế giới khác, bạn bước
+                    vào hành trình tìm lại chính mình và người thân mất tích.
                 </BannerDescription>
-                <BannerCanteenButton color="primary">Show Now</BannerCanteenButton>
+                <BannerCanteenButton color="primary">Play Now</BannerCanteenButton>
             </BannerContent>
         </BannerContainer>
     );

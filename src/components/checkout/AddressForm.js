@@ -34,31 +34,20 @@ export default function AddressForm() {
                         variant="standard"
                     />
                 </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        required
-                        id="address"
-                        name="address"
-                        label="Address line"
-                        fullWidth
-                        autoComplete="shipping address-line"
-                        variant="standard"
-                    />
-                </Grid>
 
                 <Grid item xs={12} sm={6}>
                     <TextField
                         required
-                        id="city"
-                        name="city"
-                        label="City"
+                        id="room"
+                        name="room"
+                        label="Room"
                         fullWidth
                         autoComplete="shipping address-level2"
                         variant="standard"
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    <TextField id="state" name="state" label="State/Province/Region" fullWidth variant="standard" />
+                    <TextField id="building" name="building" label="Building" fullWidth variant="standard" />
                 </Grid>
                 <Grid item xs={12}>
                     <FormControlLabel

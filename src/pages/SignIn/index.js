@@ -15,6 +15,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { successAccount } from '../SignUp';
 import { Colors } from '~/styles/theme';
+import { Alert, Collapse, FormControl, FormHelperText, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 function Copyright(props) {
     return (
@@ -33,28 +35,44 @@ const theme = createTheme();
 
 export default function SignIn() {
     const navigate = useNavigate();
+    const [openErrEmail, setOpenErrEmail] = React.useState();
+    const [openErrPassword, setOpenErrPassword] = React.useState();
+    const [openBanned, setOpenBanned] = React.useState();
+    const [openPasswordLength, setOpenPasswordLength] = React.useState();
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        axios.get(`http://localhost:8080/user/${data.get('email')}`).then((response) => {
-            localStorage.setItem('email', response.data[0].email);
-            localStorage.setItem('password', response.data[0].password);
-            localStorage.setItem('userId', response.data[0].userId);
-            localStorage.setItem('role', response.data[0].role);
-            localStorage.setItem('status', response.data[0].status);
-            localStorage.setItem('firstName', response.data[0].firstName);
-            localStorage.setItem('lastName', response.data[0].lastName);
-            localStorage.setItem('phone', response.data[0].phone);
-            localStorage.setItem('gender', response.data[0].gender);
+        axios
+            .get(`http://localhost:8080/user/${data.get('email')}`)
+            .then((response) => {
+                localStorage.setItem('email', response.data[0].email);
+                localStorage.setItem('password', response.data[0].password);
+                localStorage.setItem('userId', response.data[0].userId);
+                localStorage.setItem('role', response.data[0].role);
+                localStorage.setItem('status', response.data[0].status);
+                localStorage.setItem('firstName', response.data[0].firstName);
+                localStorage.setItem('lastName', response.data[0].lastName);
+                localStorage.setItem('phone', response.data[0].phone);
+                localStorage.setItem('gender', response.data[0].gender);
 
-            if (
-                localStorage.getItem('email') === data.get('email') &&
-                localStorage.getItem('password') === data.get('password')
-            ) {
-                navigate('/');
-            }
-        });
+                if (
+                    localStorage.getItem('email') === data.get('email') &&
+                    localStorage.getItem('password') === data.get('password') &&
+                    localStorage.getItem('status') !== 'BANNED'
+                ) {
+                    navigate('/');
+                } else if (localStorage.getItem('password').length < 8) {
+                    setOpenPasswordLength(true);
+                } else if (localStorage.getItem('password') !== data.get('password')) {
+                    setOpenErrPassword(true);
+                } else if (localStorage.getItem('status') === 'BANNED') {
+                    setOpenBanned(true);
+                }
+            })
+            .catch((error) => {
+                setOpenErrEmail(true);
+            });
     };
 
     return (
@@ -101,7 +119,7 @@ export default function SignIn() {
                                 type="email"
                                 autoComplete="email"
                                 autoFocus
-                                value={successAccount.email && successAccount.email}
+                                defaultValue={successAccount.email && successAccount.email}
                             />
                             <TextField
                                 margin="normal"
@@ -117,6 +135,7 @@ export default function SignIn() {
                                 control={<Checkbox value="remember" color="primary" />}
                                 label="Remember me"
                             />
+
                             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                                 Sign In
                             </Button>
@@ -136,6 +155,98 @@ export default function SignIn() {
                         </Box>
                     </Box>
                 </Grid>
+
+                <Box sx={{ width: '30%', position: 'absolute', top: 40, right: 20 }}>
+                    <Collapse in={openErrEmail}>
+                        <Alert
+                            severity="error"
+                            action={
+                                <IconButton
+                                    aria-label="close"
+                                    color="inherit"
+                                    size="small"
+                                    onClick={() => {
+                                        setOpenErrEmail(false);
+                                    }}
+                                >
+                                    <CloseIcon fontSize="inherit" />
+                                </IconButton>
+                            }
+                            sx={{ mb: 2 }}
+                        >
+                            Wrong email, please try again!
+                        </Alert>
+                    </Collapse>
+                </Box>
+
+                <Box sx={{ width: '30%', position: 'absolute', top: 40, right: 20 }}>
+                    <Collapse in={openErrPassword}>
+                        <Alert
+                            severity="error"
+                            action={
+                                <IconButton
+                                    aria-label="close"
+                                    color="inherit"
+                                    size="small"
+                                    onClick={() => {
+                                        setOpenErrPassword(false);
+                                    }}
+                                >
+                                    <CloseIcon fontSize="inherit" />
+                                </IconButton>
+                            }
+                            sx={{ mb: 2 }}
+                        >
+                            Wrong password, please try again!
+                        </Alert>
+                    </Collapse>
+                </Box>
+
+                <Box sx={{ width: '30%', position: 'absolute', top: 40, right: 20 }}>
+                    <Collapse in={openBanned}>
+                        <Alert
+                            severity="error"
+                            action={
+                                <IconButton
+                                    aria-label="close"
+                                    color="inherit"
+                                    size="small"
+                                    onClick={() => {
+                                        setOpenBanned(false);
+                                    }}
+                                >
+                                    <CloseIcon fontSize="inherit" />
+                                </IconButton>
+                            }
+                            sx={{ mb: 2 }}
+                        >
+                            Your account has been banned. Please contact admin for further.
+                        </Alert>
+                    </Collapse>
+                </Box>
+
+                <Box sx={{ width: '30%', position: 'absolute', top: 40, right: 20 }}>
+                    <Collapse in={openPasswordLength}>
+                        <Alert
+                            severity="error"
+                            action={
+                                <IconButton
+                                    aria-label="close"
+                                    color="inherit"
+                                    size="small"
+                                    onClick={() => {
+                                        setOpenPasswordLength(false);
+                                    }}
+                                >
+                                    <CloseIcon fontSize="inherit" />
+                                </IconButton>
+                            }
+                            sx={{ mb: 2 }}
+                        >
+                            Password must be longer than 8 character.
+                        </Alert>
+                    </Collapse>
+                </Box>
             </Grid>
         </ThemeProvider>
     );

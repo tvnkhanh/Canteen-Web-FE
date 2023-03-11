@@ -35,20 +35,20 @@ export default function AppBarDesktop({ matches }) {
                         to="/"
                         style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', color: Colors.black }}
                     >
-                        <ListItemButton>
+                        <ListItemButton sx={{ mr: 5 }}>
                             <ListItemText primary="Home" />
                         </ListItemButton>
                     </Link>
 
-                    <ListItemButton>
+                    {/* <ListItemButton>
                         <ListItemText primary="Categories" />
-                    </ListItemButton>
+                    </ListItemButton> */}
 
-                    <ListItemButton>
+                    <ListItemButton sx={{ mr: 5 }}>
                         <ListItemText primary="Products" />
                     </ListItemButton>
 
-                    <ListItemButton>
+                    <ListItemButton sx={{ mr: 30 }}>
                         <ListItemText primary="Contact Us" />
                     </ListItemButton>
                 </Box>

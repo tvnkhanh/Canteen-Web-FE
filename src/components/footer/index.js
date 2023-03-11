@@ -23,9 +23,8 @@ export default function Footer() {
                 <Grid item md={6} lg={4}>
                     <FooterTitle variant="body1">About us</FooterTitle>
                     <Typography variant="caption2">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                        laboris nisi ut aliquip ex ea commodo consequat.
+                        Canteen PTIT là một sản phẩm của học viện công nghệ bưu chính viễn thông, cơ sở thành phố Hồ Chí
+                        Minh. Ra đời nhằm mục đích phục vụ cho các bạn sinh viên, giảng viên và nhân viên nhà trường.
                     </Typography>
                     <Box
                         sx={{
