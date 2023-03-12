@@ -8,7 +8,7 @@ function Home() {
         <>
             <Banner />
             <Advertisement />
-            <Box display={'flex'} justifyContent={'center'}>
+            <Box component="div" id="product" display={'flex'} justifyContent={'center'}>
                 <Typography variant="h4" sx={{ p: 4 }}>
                     Our Products
                 </Typography>

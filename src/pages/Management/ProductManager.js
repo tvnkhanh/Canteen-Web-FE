@@ -5,8 +5,17 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from './Title';
-import { products } from '~/components/appbar/AccountMenu';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
+// import { products } from '~/components/appbar/AccountMenu';
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    TablePagination,
+    TextField,
+} from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -20,6 +29,14 @@ function createData(productId, name, price, quantity, image, description) {
 }
 
 export default function ProductManager() {
+    const [products, setProducts] = React.useState([]);
+
+    React.useEffect(() => {
+        axios.get('http://localhost:8080/products').then((response) => {
+            setProducts(response.data);
+        });
+    }, [products]);
+
     if (data.length === 0) {
         products.map((product) => {
             data.push(
@@ -58,6 +75,17 @@ export default function ProductManager() {
     const [quantity, setQuantity] = React.useState('');
     const [image, setImage] = React.useState('');
     const [description, setDescription] = React.useState('');
+    const [pg, setpg] = React.useState(0);
+    const [rpg, setrpg] = React.useState(5);
+
+    function handleChangePage(event, newpage) {
+        setpg(newpage);
+    }
+
+    function handleChangeRowsPerPage(event) {
+        setrpg(parseInt(event.target.value, 10));
+        setpg(0);
+    }
 
     const handleOpenAdd = () => {
         setOpenAdd(true);
@@ -180,7 +208,7 @@ export default function ProductManager() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {data.map((item) => (
+                    {data.slice(pg * rpg, pg * rpg + rpg).map((item) => (
                         <TableRow key={item.productId}>
                             <TableCell>{item.productId}</TableCell>
                             <TableCell>{item.name}</TableCell>
@@ -223,6 +251,16 @@ export default function ProductManager() {
                     ))}
                 </TableBody>
             </Table>
+
+            <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={data.length}
+                rowsPerPage={rpg}
+                page={pg}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
 
             <Dialog open={openAdd} onClose={handleCloseAdd}>
                 <DialogTitle>Add Product</DialogTitle>

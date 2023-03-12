@@ -62,19 +62,19 @@ export default function SignUp() {
             setOpenPasswordLength(true);
         }
 
-        axios.post('http://localhost:8080/account', account).then((response) => {
-            axios.get(`http://localhost:8080/user/${data.get('email')}`).then((response) => {
-                if (response.status === 200) {
-                    setOpenErrEmail(true);
-                } else {
+        axios.get(`http://localhost:8080/user/${data.get('email')}`).then((response) => {
+            if (response.status === 200) {
+                setOpenErrEmail(true);
+            } else {
+                axios.post('http://localhost:8080/account', account).then((response) => {
                     axios.post('http://localhost:8080/user', user).then((response) => {
                         if (response.status === 200) {
                             successAccount.email = response.data.email;
                             navigate('/signin');
                         }
                     });
-                }
-            });
+                });
+            }
         });
     };
 

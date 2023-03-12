@@ -15,7 +15,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { successAccount } from '../SignUp';
 import { Colors } from '~/styles/theme';
-import { Alert, Collapse, FormControl, FormHelperText, IconButton } from '@mui/material';
+import { Alert, Collapse, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 function Copyright(props) {
@@ -63,6 +63,7 @@ export default function SignIn() {
                 ) {
                     navigate('/');
                 } else if (localStorage.getItem('password').length < 8) {
+                    console.log(localStorage.getItem('password'));
                     setOpenPasswordLength(true);
                 } else if (localStorage.getItem('password') !== data.get('password')) {
                     setOpenErrPassword(true);

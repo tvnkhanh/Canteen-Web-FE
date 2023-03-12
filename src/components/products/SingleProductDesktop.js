@@ -29,8 +29,8 @@ export default function SingleProductDesktop({ product, matches }) {
         setShowOptions(false);
     };
 
-    const handleAddToCart = () => {
-        axios.post(`http://localhost:8080/addtocart/1/${product.productId}`);
+    const handleAddToCart = async () => {
+        await axios.post(`http://localhost:8080/addtocart/${localStorage.getItem('orderId')}/${product.productId}`);
         setOpen(true);
     };
 
@@ -49,27 +49,6 @@ export default function SingleProductDesktop({ product, matches }) {
                         <ProductAddToCart show={showOptions} variant="contained" onClick={handleAddToCart}>
                             Add to Cart
                         </ProductAddToCart>
-                        <Box sx={{ width: '100%', position: 'absolute', top: 0, right: 0 }}>
-                            <Collapse in={open}>
-                                <Alert
-                                    action={
-                                        <IconButton
-                                            aria-label="close"
-                                            color="inherit"
-                                            size="small"
-                                            onClick={() => {
-                                                setOpen(false);
-                                            }}
-                                        >
-                                            <CloseIcon fontSize="inherit" />
-                                        </IconButton>
-                                    }
-                                    sx={{ mb: 2 }}
-                                >
-                                    Add Success
-                                </Alert>
-                            </Collapse>
-                        </Box>
                     </>
                 )}
 
@@ -88,6 +67,28 @@ export default function SingleProductDesktop({ product, matches }) {
 
             <ProductMeta product={product} matches={matches} />
             <ProductDetailDialog product={product} />
+
+            <Box sx={{ width: '30%', position: 'fixed', top: 40, right: 20, zIndex: 1000 }}>
+                <Collapse in={open}>
+                    <Alert
+                        action={
+                            <IconButton
+                                aria-label="close"
+                                color="inherit"
+                                size="small"
+                                onClick={() => {
+                                    setOpen(false);
+                                }}
+                            >
+                                <CloseIcon fontSize="inherit" />
+                            </IconButton>
+                        }
+                        sx={{ mb: 2 }}
+                    >
+                        Add Success
+                    </Alert>
+                </Collapse>
+            </Box>
         </>
     );
 }

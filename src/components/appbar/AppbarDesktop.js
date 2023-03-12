@@ -44,11 +44,11 @@ export default function AppBarDesktop({ matches }) {
                         <ListItemText primary="Categories" />
                     </ListItemButton> */}
 
-                    <ListItemButton sx={{ mr: 5 }}>
+                    <ListItemButton sx={{ mr: 5 }} href="#product">
                         <ListItemText primary="Products" />
                     </ListItemButton>
 
-                    <ListItemButton sx={{ mr: 30 }}>
+                    <ListItemButton sx={{ mr: 30 }} href="#contact">
                         <ListItemText primary="Contact Us" />
                     </ListItemButton>
                 </Box>

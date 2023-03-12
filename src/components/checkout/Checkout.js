@@ -12,9 +12,11 @@ import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import AddressForm from './AddressForm';
+import AddressForm, { address } from './AddressForm';
 import PaymentForm from './PaymentForm';
 import Review from './Review';
+import axios from 'axios';
+import { orders } from '../appbar/Actions';
 
 const steps = ['Shipping address', 'Payment details', 'Review your order'];
 
@@ -36,8 +38,26 @@ const theme = createTheme();
 export default function Checkout() {
     const [activeStep, setActiveStep] = React.useState(0);
 
-    const handleNext = () => {
+    React.useEffect(() => {
+        console.log(address);
+    }, [address]);
+
+    const handleNext = async () => {
         setActiveStep(activeStep + 1);
+        await axios.post('http://localhost:8080/make-order', {
+            orderId: localStorage.getItem('orderId'),
+            status: 'PENDING',
+            userId: localStorage.getItem('userId'),
+            paymentId: orders[0].paymentId,
+            deliveryId: orders[0].deliveryId,
+        });
+
+        await axios.post('http://localhost:8080/set-order-time', {
+            deliveryId: orders[0].deliveryId,
+            address: address,
+            departureTime: null,
+            arrival: null,
+        });
     };
 
     const handleBack = () => {
@@ -74,8 +94,8 @@ export default function Checkout() {
                                 Thank you for your order.
                             </Typography>
                             <Typography variant="subtitle1">
-                                Your order number is #2001539. We have emailed your order confirmation, and will send
-                                you an update when your order has shipped.
+                                Your order number is #{localStorage.getItem('orderId')}. We have emailed your order
+                                confirmation, and will send you an update when your order has shipped.
                             </Typography>
                         </React.Fragment>
                     ) : (

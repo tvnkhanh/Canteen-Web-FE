@@ -1,4 +1,4 @@
-import { Container, Grid, useMediaQuery } from '@mui/material';
+import { Box, Container, Grid, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useState } from 'react';
 import AppPagination from '../pagination';

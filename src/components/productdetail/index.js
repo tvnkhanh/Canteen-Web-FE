@@ -19,8 +19,8 @@ export default function ProductDetail({ open, onClose, product }) {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down('md'));
 
-    const handleAddToCart = () => {
-        axios.post(`http://localhost:8080/addtocart/1/${product.productId}`);
+    const handleAddToCart = async () => {
+        await axios.post(`http://localhost:8080/addtocart/${localStorage.getItem('orderId')}/${product.productId}`);
     };
 
     return (

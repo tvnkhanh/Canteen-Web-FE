@@ -4,9 +4,11 @@ import ProfileLayout from '~/layouts/ProfileLayout';
 import Cart from '~/pages/Cart';
 import Favorite from '~/pages/Favorite';
 import Home from '~/pages/Home';
+import OrderManagement from '~/pages/Management/OrderManagement';
 import ProductManagement from '~/pages/Management/ProductManagement';
 import UserManagement from '~/pages/Management/UserManagement';
 import Profile from '~/pages/Profile';
+import Search from '~/pages/Search';
 import SignIn from '~/pages/SignIn';
 import SignUp from '~/pages/SignUp';
 
@@ -20,6 +22,8 @@ const publicRoutes = [
     { path: '/profile', component: Profile, layout: ProfileLayout },
     { path: '/management/product', component: ProductManagement, layout: DefaultLayout },
     { path: '/management/user', component: UserManagement, layout: DefaultLayout },
+    { path: '/management/orders', component: OrderManagement, layout: DefaultLayout },
+    { path: '/search', component: Search, layout: DefaultLayout },
 ];
 
 const privateRoutes = [];

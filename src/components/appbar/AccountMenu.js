@@ -39,14 +39,6 @@ export default function AccountMenu() {
         localStorage.setItem('gender', '');
     };
 
-    const handleManagementData = async () => {
-        await axios.get('http://localhost:8080/products').then((response) => {
-            products = response.data;
-        });
-
-        navigate('/management/product');
-    };
-
     return (
         <React.Fragment>
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center', ml: 3, mr: 3 }}>
@@ -98,11 +90,11 @@ export default function AccountMenu() {
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
                 {localStorage.getItem('role') === 'ADMIN' && (
-                    // <Link to="/management" style={{ textDecoration: 'none', color: Colors.black }}>
-                    <MenuItem onClick={handleManagementData}>
-                        <Avatar /> Management
-                    </MenuItem>
-                    // </Link>
+                    <Link to="/management/product" style={{ textDecoration: 'none', color: Colors.black }}>
+                        <MenuItem>
+                            <Avatar /> Management
+                        </MenuItem>
+                    </Link>
                 )}
                 <Link to="/profile" style={{ textDecoration: 'none', color: Colors.black }}>
                     <MenuItem onClick={handleClose}>

@@ -5,7 +5,13 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
+let address;
+
 export default function AddressForm() {
+    const [value, setValue] = React.useState();
+
+    console.log(address);
+
     return (
         <React.Fragment>
             <Typography variant="h6" gutterBottom>
@@ -44,6 +50,10 @@ export default function AddressForm() {
                         fullWidth
                         autoComplete="shipping address-level2"
                         variant="standard"
+                        onChange={(e) => {
+                            setValue(e.target.value);
+                            address = value;
+                        }}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -59,3 +69,5 @@ export default function AddressForm() {
         </React.Fragment>
     );
 }
+
+export { address };

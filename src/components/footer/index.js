@@ -10,6 +10,8 @@ import { Stack } from '@mui/system';
 export default function Footer() {
     return (
         <Box
+            component="div"
+            id="contact"
             sx={{
                 background: Colors.shaft,
                 color: Colors.white,
