@@ -56,6 +56,8 @@ export default function SignUp() {
             firstName: data.get('firstName'),
             lastName: data.get('lastName'),
             email: data.get('email'),
+            phoneNumber: data.get('phone'),
+            gender: 'male',
         };
 
         if (data.get('password').length < 8) {
@@ -63,7 +65,7 @@ export default function SignUp() {
         }
 
         axios.get(`http://localhost:8080/user/${data.get('email')}`).then((response) => {
-            if (response.status === 200) {
+            if (response.status === 200 && response.data.length !== 0) {
                 setOpenErrEmail(true);
             } else {
                 axios.post('http://localhost:8080/account', account).then((response) => {
@@ -129,6 +131,17 @@ export default function SignUp() {
                                     name="email"
                                     autoComplete="email"
                                     type="email"
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    id="phone"
+                                    label="Phone Number"
+                                    name="phone"
+                                    autoComplete="phone"
+                                    type="tel"
                                 />
                             </Grid>
                             <Grid item xs={12}>

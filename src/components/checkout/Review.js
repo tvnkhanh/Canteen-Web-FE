@@ -3,9 +3,7 @@ import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import Grid from '@mui/material/Grid';
 import axios from 'axios';
-// import { orders } from '../appbar/Actions';
 
 const addresses = ['1 MUI Drive', 'Reactville', 'Anytown', '99999', 'USA'];
 const payments = [

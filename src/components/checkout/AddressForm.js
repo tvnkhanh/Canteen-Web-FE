@@ -4,14 +4,15 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import { Colors } from '~/styles/theme';
 
 let address;
 
 export default function AddressForm() {
     const [value, setValue] = React.useState();
 
+    address = value;
     console.log(address);
-
     return (
         <React.Fragment>
             <Typography variant="h6" gutterBottom>
@@ -41,28 +42,31 @@ export default function AddressForm() {
                     />
                 </Grid>
 
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={12}>
                     <TextField
                         required
-                        id="room"
-                        name="room"
-                        label="Room"
+                        id="address"
+                        name="address"
+                        label="Address"
                         fullWidth
                         autoComplete="shipping address-level2"
                         variant="standard"
                         onChange={(e) => {
                             setValue(e.target.value);
-                            address = value;
                         }}
                     />
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                    <TextField id="building" name="building" label="Building" fullWidth variant="standard" />
+
+                <Grid item xs={12}>
+                    <FormControlLabel
+                        control={<Checkbox color="primary" name="saveAddress" value="yes" />}
+                        label="Use this address for payment details"
+                    />
                 </Grid>
                 <Grid item xs={12}>
                     <FormControlLabel
-                        control={<Checkbox color="secondary" name="saveAddress" value="yes" />}
-                        label="Use this address for payment details"
+                        control={<Checkbox color="primary" name="payByCash" value="yes" />}
+                        label="Pay by cash."
                     />
                 </Grid>
             </Grid>

@@ -7,8 +7,6 @@ import AccountMenu from './AccountMenu';
 import { Link } from 'react-router-dom';
 import SignInSignUpBtn from './SignInSignUpBtn';
 
-let orders = [];
-
 export default function Actions({ matches }) {
     const Component = matches ? ActionIconContainerMobile : ActionIconContainerDesktop;
 
@@ -82,5 +80,3 @@ export default function Actions({ matches }) {
         </Component>
     );
 }
-
-export { orders };

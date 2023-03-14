@@ -35,16 +35,16 @@ export default function AppBarDesktop({ matches }) {
                         to="/"
                         style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', color: Colors.black }}
                     >
-                        <ListItemButton sx={{ mr: 5 }}>
+                        <ListItemButton>
                             <ListItemText primary="Home" />
                         </ListItemButton>
                     </Link>
 
-                    {/* <ListItemButton>
+                    <ListItemButton>
                         <ListItemText primary="Categories" />
-                    </ListItemButton> */}
+                    </ListItemButton>
 
-                    <ListItemButton sx={{ mr: 5 }} href="#product">
+                    <ListItemButton href="#product">
                         <ListItemText primary="Products" />
                     </ListItemButton>
 

@@ -32,7 +32,7 @@ function createData(
     paymentMethod,
     address,
     orderTime,
-    departureTime,
+    startTime,
     arrival,
 ) {
     return {
@@ -44,7 +44,7 @@ function createData(
         paymentMethod,
         address,
         orderTime,
-        departureTime,
+        startTime,
         arrival,
     };
 }
@@ -122,7 +122,7 @@ export default function OrderManager() {
                     order.paymentMethod,
                     order.address,
                     order.orderTime,
-                    order.departureTime,
+                    order.startTime,
                     order.arrival,
                 ),
             );
@@ -140,7 +140,7 @@ export default function OrderManager() {
                     order.paymentMethod,
                     order.address,
                     order.orderTime,
-                    order.departureTime,
+                    order.startTime,
                     order.arrival,
                 ),
             );
@@ -172,7 +172,7 @@ export default function OrderManager() {
                             <TableCell>{item.paymentMethod}</TableCell>
                             <TableCell>{item.address}</TableCell>
                             <TableCell align="center">{item.orderTime}</TableCell>
-                            <TableCell align="center">{item.departureTime}</TableCell>
+                            <TableCell align="center">{item.startTime}</TableCell>
                             <TableCell align="center">{item.arrival}</TableCell>
                             <TableCell align="center">
                                 <Button
@@ -183,7 +183,7 @@ export default function OrderManager() {
                                             status: item.status,
                                             paymentId: item.paymentId,
                                             deliveryId: item.deliveryId,
-                                            departureTime: item.departureTime,
+                                            startTime: item.startTime,
                                             arrivalTime: item.arrivalTime,
                                         };
                                     }}
@@ -200,7 +200,7 @@ export default function OrderManager() {
                                             status: item.status,
                                             paymentId: item.paymentId,
                                             deliveryId: item.deliveryId,
-                                            departureTime: item.departureTime,
+                                            startTime: item.startTime,
                                             arrivalTime: item.arrivalTime,
                                         };
                                     }}

@@ -8,6 +8,7 @@ import EmptyCart from '~/assets/empty-cart.png';
 import axios from 'axios';
 
 let data = [];
+let orderData = [];
 
 function createData(
     orderId,
@@ -33,33 +34,35 @@ export function CartComponent() {
         axios
             .get(`http://localhost:8080/orders-info/PENDING/${localStorage.getItem('userId')}`)
             .then(async (response) => {
-                temp = response.data;
-                localStorage.setItem('orderId', temp.orderId);
-                await axios
-                    .get(`http://localhost:8080/carts/${localStorage.getItem('userId')}`)
-                    .then(async (response) => {
-                        if (temp.status === 'PENDING') {
+                if (response.data.userId !== 0) {
+                    temp = response.data;
+                    localStorage.setItem('orderId', temp.orderId);
+                    await axios
+                        .get(`http://localhost:8080/carts/${localStorage.getItem('userId')}`)
+                        .then((response) => {
                             setOrders(response.data);
-                        } else {
-                            await axios.post('http://localhost:8080/init-delivery', {}).then(async (response) => {
+                        });
+                } else {
+                    await axios.post('http://localhost:8080/init-delivery', {}).then(async (response) => {
+                        await axios
+                            .post('http://localhost:8080/new-order', {
+                                status: 'PENDING',
+                                userId: localStorage.getItem('userId'),
+                                paymentId: 2,
+                            })
+                            .then(async (response) => {
                                 await axios
-                                    .post('http://localhost:8080/new-order', {
-                                        status: 'PENDING',
-                                        userId: localStorage.getItem('userId'),
-                                        paymentId: 2,
-                                    })
-                                    .then(async (response) => {
-                                        await axios
-                                            .get(`http://localhost:8080/carts/${localStorage.getItem('userId')}`)
-                                            .then((response) => {
-                                                setOrders(response.data);
-                                            });
+                                    .get(`http://localhost:8080/carts/${localStorage.getItem('userId')}`)
+                                    .then((response) => {
+                                        setOrders(response.data);
                                     });
                             });
-                        }
                     });
+                }
             });
     }, [orders]);
+
+    orderData = orders;
 
     let total = 0;
     orders.map((product) => {
@@ -140,3 +143,5 @@ export function CartComponent() {
         </>
     );
 }
+
+export { orderData };

@@ -96,7 +96,7 @@ export default function AccountMenu() {
                         </MenuItem>
                     </Link>
                 )}
-                <Link to="/profile" style={{ textDecoration: 'none', color: Colors.black }}>
+                <Link to="/profile/address" style={{ textDecoration: 'none', color: Colors.black }}>
                     <MenuItem onClick={handleClose}>
                         <Avatar /> Profile
                     </MenuItem>

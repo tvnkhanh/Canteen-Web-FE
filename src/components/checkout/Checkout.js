@@ -3,20 +3,18 @@ import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Toolbar from '@mui/material/Toolbar';
 import Paper from '@mui/material/Paper';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AddressForm, { address } from './AddressForm';
 import PaymentForm from './PaymentForm';
 import Review from './Review';
 import axios from 'axios';
-import { orders } from '../appbar/Actions';
+import { orderData as orders } from '../cart';
 
 const steps = ['Shipping address', 'Payment details', 'Review your order'];
 
@@ -44,21 +42,25 @@ export default function Checkout() {
 
     const handleNext = async () => {
         setActiveStep(activeStep + 1);
-        await axios.post('http://localhost:8080/make-order', {
-            orderId: localStorage.getItem('orderId'),
-            status: 'PENDING',
-            userId: localStorage.getItem('userId'),
-            paymentId: orders[0].paymentId,
-            deliveryId: orders[0].deliveryId,
-        });
+        if (activeStep === 2) {
+            await axios.post('http://localhost:8080/make-order', {
+                orderId: localStorage.getItem('orderId'),
+                status: 'PENDING',
+                userId: localStorage.getItem('userId'),
+                paymentId: orders[0].paymentId,
+                deliveryId: orders[0].deliveryId,
+            });
 
-        await axios.post('http://localhost:8080/set-order-time', {
-            deliveryId: orders[0].deliveryId,
-            address: address,
-            departureTime: null,
-            arrival: null,
-        });
+            await axios.post('http://localhost:8080/set-order-time', {
+                deliveryId: orders[0].deliveryId,
+                address: address,
+                departureTime: null,
+                arrival: null,
+            });
+        }
     };
+
+    console.log(orders);
 
     const handleBack = () => {
         setActiveStep(activeStep - 1);

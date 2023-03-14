@@ -9,6 +9,7 @@ import {
     BannerTitle,
 } from '~/styles/banner';
 import imageTest from '~/assets/kokofish_my_waifu.gif';
+import bannerImage from '~/assets/canteen.jpg';
 
 export default function Banner() {
     const theme = useTheme();
@@ -16,15 +17,14 @@ export default function Banner() {
 
     return (
         <BannerContainer>
-            <BannerImage src={imageTest} />
+            <BannerImage src={bannerImage} />
             <BannerContent>
                 <Typography variant="h6">Now Available</Typography>
-                <BannerTitle variant="h4">Genshin</BannerTitle>
+                <BannerTitle variant="h4">Canteen</BannerTitle>
                 <BannerDescription variant="subtitle">
-                    Trải nghiệm cảm giác mạo hiểm cá nhân. Trong vai trò là Nhà Lữ Hành đến từ thế giới khác, bạn bước
-                    vào hành trình tìm lại chính mình và người thân mất tích.
+                    Meals made with love, right here in our school canteen.
                 </BannerDescription>
-                <BannerCanteenButton color="primary">Play Now</BannerCanteenButton>
+                <BannerCanteenButton color="primary">Discovery Now</BannerCanteenButton>
             </BannerContent>
         </BannerContainer>
     );

@@ -7,7 +7,7 @@ export default function ProductMeta({ product, matches }) {
             <Typography variant={matches ? 'h6' : 'h5'} lightheight={2}>
                 {product.name}
             </Typography>
-            <Typography variant={matches ? 'caption' : 'body1'}>{product.price}VND</Typography>
+            <Typography variant={matches ? 'caption' : 'body1'}>{product.price} đ</Typography>
         </ProductMetaWrapper>
     );
 }

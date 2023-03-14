@@ -5,8 +5,8 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from './Title';
-// import { products } from '~/components/appbar/AccountMenu';
 import {
+    Box,
     Button,
     Dialog,
     DialogActions,
@@ -15,6 +15,7 @@ import {
     DialogTitle,
     TablePagination,
     TextField,
+    Typography,
 } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import EditIcon from '@mui/icons-material/Edit';
@@ -192,7 +193,13 @@ export default function ProductManager() {
 
     return (
         <React.Fragment>
-            <Title>Products</Title>
+            <Box display={'flex'} alignItems="center" justifyContent={'space-between'}>
+                <Title>Products</Title>
+                <Button onClick={handleOpenAdd}>
+                    <AddCircleIcon />
+                    <Typography ml={2}>Add a new product</Typography>
+                </Button>
+            </Box>
             <Table size="medium">
                 <TableHead>
                     <TableRow>
@@ -202,7 +209,7 @@ export default function ProductManager() {
                         <TableCell>Quantity</TableCell>
                         <TableCell>Image</TableCell>
                         <TableCell>Description</TableCell>
-                        <TableCell align="center">Add</TableCell>
+                        {/* <TableCell align="center">Add</TableCell> */}
                         <TableCell align="center">Edit</TableCell>
                         <TableCell align="center">Delete</TableCell>
                     </TableRow>
@@ -222,12 +229,12 @@ export default function ProductManager() {
                                     ? item.description
                                     : item.description.substr(0, 18) + '...'}
                             </TableCell>
-                            <TableCell>
+                            {/* <TableCell>
                                 <Button onClick={handleOpenAdd}>
                                     <AddCircleIcon />
                                 </Button>
-                            </TableCell>
-                            <TableCell>
+                            </TableCell> */}
+                            <TableCell align="center">
                                 <Button>
                                     <EditIcon
                                         onClick={() => {
@@ -237,7 +244,7 @@ export default function ProductManager() {
                                     />
                                 </Button>
                             </TableCell>
-                            <TableCell>
+                            <TableCell align="center">
                                 <Button>
                                     <DeleteIcon
                                         onClick={() => {
@@ -375,7 +382,7 @@ export default function ProductManager() {
             </Dialog>
 
             <Dialog open={openDelete} onClose={handleCloseDelete}>
-                <DialogTitle>Edit Product</DialogTitle>
+                <DialogTitle>Delete Product</DialogTitle>
                 <DialogContent
                     sx={{
                         '& .MuiTextField-root': { m: 1, width: '25ch' },
