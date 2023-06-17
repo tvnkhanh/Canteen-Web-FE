@@ -5,11 +5,24 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { Colors } from '~/styles/theme';
+import axios from 'axios';
 
 let address;
 
 export default function AddressForm() {
     const [value, setValue] = React.useState();
+    const [userAddress, setUserAddress] = React.useState([]);
+
+    function getData() {
+        axios.get(`http://localhost:8080/user/address/${localStorage.getItem('userId')}`).then((response) => {
+            setUserAddress(response.data);
+        });
+    }
+
+    React.useEffect(() => {
+        getData();
+        console.log(userAddress);
+    }, []);
 
     address = value;
     console.log(address);

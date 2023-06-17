@@ -32,11 +32,15 @@ function createData(productId, name, price, quantity, image, description) {
 export default function ProductManager() {
     const [products, setProducts] = React.useState([]);
 
-    React.useEffect(() => {
+    function getData() {
         axios.get('http://localhost:8080/products').then((response) => {
             setProducts(response.data);
         });
-    }, [products]);
+    }
+
+    React.useEffect(() => {
+        getData();
+    }, []);
 
     if (data.length === 0) {
         products.map((product) => {
@@ -131,6 +135,7 @@ export default function ProductManager() {
         setDescription('');
 
         setOpenAdd(false);
+        getData();
     };
 
     const handleEdit = async () => {
@@ -183,12 +188,14 @@ export default function ProductManager() {
         setDescription('');
 
         setOpenEdit(false);
+        getData();
     };
 
     const handleDelete = async () => {
         await axios.post(`http://localhost:8080/product/delete/${items.productId}`);
 
         setOpenDelete(false);
+        getData();
     };
 
     return (

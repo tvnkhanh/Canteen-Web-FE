@@ -45,11 +45,15 @@ export default function AccountManager() {
         setpg(0);
     }
 
-    useEffect(() => {
+    function getData() {
         axios.get(`http://localhost:8080/users/USER`).then((response) => {
             setUsers(response.data);
         });
-    }, [users]);
+    }
+
+    useEffect(() => {
+        getData();
+    }, []);
 
     const handleOpen = () => {
         setOpen(true);
@@ -67,6 +71,7 @@ export default function AccountManager() {
         }
 
         setOpen(false);
+        getData();
     };
 
     if (data.length === 0) {

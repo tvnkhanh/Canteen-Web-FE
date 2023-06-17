@@ -7,6 +7,7 @@ import Home from '~/pages/Home';
 import OrderManagement from '~/pages/Management/OrderManagement';
 import ProductManagement from '~/pages/Management/ProductManagement';
 import UserManagement from '~/pages/Management/UserManagement';
+import MyOrders from '~/pages/Profile/MyOrdersEdit';
 import AddressEdit from '~/pages/Profile/AddressEdit';
 import PaymentMethodEdit from '~/pages/Profile/PaymentMethodEdit';
 import Search from '~/pages/Search';
@@ -24,6 +25,7 @@ const publicRoutes = [
     { path: '/management/user', component: UserManagement, layout: DefaultLayout },
     { path: '/management/orders', component: OrderManagement, layout: DefaultLayout },
     { path: '/search', component: Search, layout: DefaultLayout },
+    { path: 'profile/my-orders', component: MyOrders, layout: DefaultLayout },
     { path: '/profile/address', component: AddressEdit, layout: DefaultLayout },
     { path: '/profile/payment', component: PaymentMethodEdit, layout: DefaultLayout },
 ];

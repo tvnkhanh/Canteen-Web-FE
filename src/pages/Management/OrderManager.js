@@ -16,12 +16,14 @@ import React, { useEffect, useState } from 'react';
 // import { orders } from './ListItems';
 import Title from './Title';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import DeleteIcon from '@mui/icons-material/Delete';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import axios from 'axios';
 
 let data = [];
 let item1 = {};
 let item2 = {};
+let item3 = {};
 
 function createData(
     userId,
@@ -52,6 +54,8 @@ function createData(
 export default function OrderManager() {
     const [openGet, setOpenGet] = useState();
     const [openDone, setOpenDone] = useState();
+    const [openCancel, setOpenCancel] = useState();
+    const [openCancelNotify, setOpenCancelNotify] = useState();
     const [pg, setpg] = React.useState(0);
     const [rpg, setrpg] = React.useState(5);
 
@@ -66,11 +70,32 @@ export default function OrderManager() {
 
     const [orders, setOrders] = useState([]);
 
-    useEffect(() => {
+    function getData() {
         axios.get('http://localhost:8080/orders-info').then((response) => {
             setOrders(response.data);
         });
-    }, [orders]);
+    }
+
+    useEffect(() => {
+        getData();
+    }, []);
+
+    const handleCancelOrder = async () => {
+        if (item3.status === 'ORDER' || item3.status === 'RECEIVED') {
+            await axios.post('http://localhost:8080/cancel-order', {
+                orderId: item3.orderId,
+                status: item3.status,
+                userId: localStorage.getItem('userId'),
+                paymentId: item3.paymentId,
+                deliveryId: item3.deliveryId,
+            });
+        } else {
+            setOpenCancelNotify(true);
+        }
+
+        setOpenCancel(false);
+        getData();
+    };
 
     const handleGetOrder = async () => {
         await axios.post('http://localhost:8080/get-order', {
@@ -89,6 +114,7 @@ export default function OrderManager() {
         });
 
         setOpenGet(false);
+        getData();
     };
 
     const handleDoneOrder = async () => {
@@ -108,6 +134,7 @@ export default function OrderManager() {
         });
 
         setOpenDone(false);
+        getData();
     };
 
     if (data.length === 0) {
@@ -160,6 +187,7 @@ export default function OrderManager() {
                         <TableCell align="center">Order Time</TableCell>
                         <TableCell align="center">Start Time</TableCell>
                         <TableCell align="center">Arrival</TableCell>
+                        <TableCell align="center">Cancel</TableCell>
                         <TableCell align="center">Get Order</TableCell>
                         <TableCell align="center">Marked As Done</TableCell>
                     </TableRow>
@@ -174,6 +202,23 @@ export default function OrderManager() {
                             <TableCell align="center">{item.orderTime}</TableCell>
                             <TableCell align="center">{item.startTime}</TableCell>
                             <TableCell align="center">{item.arrival}</TableCell>
+                            <TableCell align="center">
+                                <Button
+                                    onClick={() => {
+                                        setOpenCancel(true);
+                                        item3 = {
+                                            orderId: item.orderId,
+                                            status: item.status,
+                                            paymentId: item.paymentId,
+                                            deliveryId: item.deliveryId,
+                                            startTime: item.startTime,
+                                            arrivalTime: item.arrivalTime,
+                                        };
+                                    }}
+                                >
+                                    <DeleteIcon />
+                                </Button>
+                            </TableCell>
                             <TableCell align="center">
                                 <Button
                                     onClick={() => {
@@ -222,6 +267,35 @@ export default function OrderManager() {
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
+
+            <Dialog open={openCancel} onClose={() => setOpenCancel(false)}>
+                <DialogTitle>Cancel Order</DialogTitle>
+                <DialogContent
+                    sx={{
+                        '& .MuiTextField-root': { m: 1, width: '25ch' },
+                    }}
+                >
+                    <DialogContentText>Are you sure cancel this order?</DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpenCancel(false)}>No</Button>
+                    <Button onClick={handleCancelOrder}>Cancel Order</Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={openCancelNotify} onClose={() => setOpenCancelNotify(false)}>
+                <DialogTitle>Cancel Order</DialogTitle>
+                <DialogContent
+                    sx={{
+                        '& .MuiTextField-root': { m: 1, width: '25ch' },
+                    }}
+                >
+                    <DialogContentText>You can't cancel this order!</DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpenCancelNotify(false)}>I understand</Button>
+                </DialogActions>
+            </Dialog>
 
             <Dialog open={openGet} onClose={() => setOpenGet(false)}>
                 <DialogTitle>Get Order</DialogTitle>

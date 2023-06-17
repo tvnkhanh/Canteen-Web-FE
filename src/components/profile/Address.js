@@ -53,6 +53,16 @@ export default function Address() {
         setOpenDelete(false);
     };
 
+    function getData() {
+        axios.get(`http://localhost:8080/user/address/${localStorage.getItem('userId')}`).then((response) => {
+            setData(response.data);
+        });
+
+        axios.get(`http://localhost:8080/get-user/${localStorage.getItem('userId')}`).then((response) => {
+            setUser(response.data);
+        });
+    }
+
     const handleAdd = () => {
         if (phone !== '') {
             user.phoneNumber = phone;
@@ -65,6 +75,7 @@ export default function Address() {
         axios.post('http://localhost:8080/user', user);
 
         setOpenAdd(false);
+        getData();
     };
 
     const handleDelete = () => {
@@ -74,17 +85,12 @@ export default function Address() {
         });
 
         setOpenDelete(false);
+        getData();
     };
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/user/address/${localStorage.getItem('userId')}`).then((response) => {
-            setData(response.data);
-        });
-    }, [data]);
-
-    axios.get(`http://localhost:8080/get-user/${localStorage.getItem('userId')}`).then((response) => {
-        setUser(response.data);
-    });
+        getData();
+    }, []);
 
     return (
         <React.Fragment>

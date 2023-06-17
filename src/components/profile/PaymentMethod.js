@@ -65,8 +65,18 @@ export default function PaymentMethod() {
         setOpenDelete(false);
     };
 
-    const handleAdd = () => {
-        axios.post(`http://localhost:8080/card/save`, {
+    function getData() {
+        axios.get(`http://localhost:8080/get-cards/${localStorage.getItem('userId')}`).then((response) => {
+            setData(response.data);
+        });
+    }
+
+    useEffect(() => {
+        getData();
+    }, []);
+
+    const handleAdd = async () => {
+        await axios.post(`http://localhost:8080/card/save`, {
             cardHolder: cardHolder,
             creditCardNum: creditCardNum,
             validThru: validThru,
@@ -75,10 +85,11 @@ export default function PaymentMethod() {
         });
 
         setOpenAdd(false);
+        getData();
     };
 
-    const handleEdit = () => {
-        axios.post(`http://localhost:8080/card/update`, {
+    const handleEdit = async () => {
+        await axios.post(`http://localhost:8080/card/update`, {
             pinfoId: cardInfo.pinfoId,
             cardHolder: cardHolder === '' ? cardInfo.cardHolder : cardHolder,
             creditCardNum: creditCardNum === '' ? cardInfo.creditCardNum : creditCardNum,
@@ -88,19 +99,15 @@ export default function PaymentMethod() {
         });
 
         setOpenEdit(false);
+        getData();
     };
 
-    const handleDelete = () => {
-        axios.post(`http://localhost:8080/card/delete/${cardInfo.pinfoId}`);
+    const handleDelete = async () => {
+        await axios.post(`http://localhost:8080/card/delete/${cardInfo.pinfoId}`);
 
         setOpenDelete(false);
+        getData();
     };
-
-    useEffect(() => {
-        axios.get(`http://localhost:8080/get-cards/${localStorage.getItem('userId')}`).then((response) => {
-            setData(response.data);
-        });
-    }, [data]);
 
     return (
         <React.Fragment>

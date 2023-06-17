@@ -22,6 +22,15 @@ export default function SearchBox() {
                     fullWidth
                     placeholder="Search something"
                     onChange={(e) => setValue(e.target.value)}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                            setShowSearchBox(false);
+                            if (value !== '') {
+                                searchValue = value;
+                                navigate('/search');
+                            }
+                        }
+                    }}
                 />
                 <IconButton>
                     <SearchIcon
