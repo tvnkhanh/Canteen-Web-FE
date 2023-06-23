@@ -63,7 +63,7 @@ export default function Review() {
                 {products.map((product) => (
                     <ListItem key={product.name} sx={{ py: 1, px: 0 }}>
                         <ListItemText
-                            primary={product.name}
+                            primary={product.name + ' x ' + product.quantity}
                             secondary={
                                 product.description.length < 30
                                     ? product.description

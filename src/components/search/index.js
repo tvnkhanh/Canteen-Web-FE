@@ -32,7 +32,15 @@ export default function SearchBox() {
                         }
                     }}
                 />
-                <IconButton>
+                <IconButton
+                    onClick={() => {
+                        setShowSearchBox(false);
+                        if (value !== '') {
+                            searchValue = value;
+                            navigate('/search');
+                        }
+                    }}
+                >
                     <SearchIcon
                         sx={{
                             fontSize: { xs: '2rem', md: '3rem' },
@@ -43,10 +51,6 @@ export default function SearchBox() {
                 <IconButton
                     onClick={() => {
                         setShowSearchBox(false);
-                        if (value !== '') {
-                            searchValue = value;
-                            navigate('/search');
-                        }
                     }}
                     sx={{
                         position: 'absolute',

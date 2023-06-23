@@ -1,7 +1,7 @@
 import ShareIcon from '@mui/icons-material/Share';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FitScreenIcon from '@mui/icons-material/FitScreen';
-import { Alert, Box, Collapse, IconButton, Stack } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack } from '@mui/material';
 import {
     Product,
     ProductActionButton,
@@ -15,11 +15,11 @@ import { useState } from 'react';
 import useDialogModel from '~/hooks/useDialogModel';
 import ProductDetail from '../productdetail';
 import axios from 'axios';
-import CloseIcon from '@mui/icons-material/Close';
 
 export default function SingleProductDesktop({ product, matches }) {
     const [showOptions, setShowOptions] = useState(false);
-    const [open, setOpen] = useState(false);
+    const [openFail, setOpenFail] = useState(false);
+    const [openSuccess, setOpenSuccess] = useState(false);
 
     const handleMouseEnter = () => {
         setShowOptions(true);
@@ -30,8 +30,15 @@ export default function SingleProductDesktop({ product, matches }) {
     };
 
     const handleAddToCart = async () => {
-        await axios.post(`http://localhost:8080/addtocart/${localStorage.getItem('orderId')}/${product.productId}`);
-        setOpen(true);
+        await axios
+            .post(`http://localhost:8080/addtocart/${localStorage.getItem('orderId')}/${product.productId}`)
+            .then((response) => {
+                if (response.data === 'OK') {
+                    setOpenSuccess(true);
+                } else {
+                    setOpenFail(true);
+                }
+            });
     };
 
     const [ProductDetailDialog, showProductDetailDialog, closeProductDetailDialog] = useDialogModel(ProductDetail);
@@ -68,27 +75,33 @@ export default function SingleProductDesktop({ product, matches }) {
             <ProductMeta product={product} matches={matches} />
             <ProductDetailDialog product={product} />
 
-            <Box sx={{ width: '30%', position: 'fixed', top: 40, right: 20, zIndex: 1000 }}>
-                <Collapse in={open}>
-                    <Alert
-                        action={
-                            <IconButton
-                                aria-label="close"
-                                color="inherit"
-                                size="small"
-                                onClick={() => {
-                                    setOpen(false);
-                                }}
-                            >
-                                <CloseIcon fontSize="inherit" />
-                            </IconButton>
-                        }
-                        sx={{ mb: 2 }}
-                    >
-                        Add Success
-                    </Alert>
-                </Collapse>
-            </Box>
+            <Dialog open={openFail} onClose={() => setOpenFail(false)}>
+                <DialogTitle>Out of stock</DialogTitle>
+                <DialogContent
+                    sx={{
+                        '& .MuiTextField-root': { m: 1, width: '25ch' },
+                    }}
+                >
+                    <DialogContentText>This product is out of stock, please comeback later.</DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpenFail(false)}>I understand</Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={openSuccess} onClose={() => setOpenSuccess(false)}>
+                <DialogTitle>Success</DialogTitle>
+                <DialogContent
+                    sx={{
+                        '& .MuiTextField-root': { m: 1, width: '25ch' },
+                    }}
+                >
+                    <DialogContentText>This product is successfully added to cart.</DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpenSuccess(false)}>Close</Button>
+                </DialogActions>
+            </Dialog>
         </>
     );
 }

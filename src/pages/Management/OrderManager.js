@@ -56,6 +56,7 @@ export default function OrderManager() {
     const [openDone, setOpenDone] = useState();
     const [openCancel, setOpenCancel] = useState();
     const [openCancelNotify, setOpenCancelNotify] = useState();
+    const [openFail, setOpenFail] = useState(false);
     const [pg, setpg] = React.useState(0);
     const [rpg, setrpg] = React.useState(5);
 
@@ -98,20 +99,26 @@ export default function OrderManager() {
     };
 
     const handleGetOrder = async () => {
-        await axios.post('http://localhost:8080/get-order', {
-            orderId: item1.orderId,
-            status: item1.status,
-            userId: localStorage.getItem('userId'),
-            paymentId: item1.paymentId,
-            deliveryId: item1.deliveryId,
-        });
-
-        await axios.post('http://localhost:8080/set-time', {
-            deliveryId: item1.deliveryId,
-            address: item1.address,
-            departureTime: item1.departureTime,
-            arrival: item1.arrival,
-        });
+        await axios
+            .post('http://localhost:8080/get-order', {
+                orderId: item1.orderId,
+                status: item1.status,
+                userId: localStorage.getItem('userId'),
+                paymentId: item1.paymentId,
+                deliveryId: item1.deliveryId,
+            })
+            .then(async (response) => {
+                if (response.data === 'OK') {
+                    await axios.post('http://localhost:8080/set-time', {
+                        deliveryId: item1.deliveryId,
+                        address: item1.address,
+                        departureTime: item1.departureTime,
+                        arrival: item1.arrival,
+                    });
+                } else {
+                    setOpenFail(true);
+                }
+            });
 
         setOpenGet(false);
         getData();
@@ -324,6 +331,20 @@ export default function OrderManager() {
                 <DialogActions>
                     <Button onClick={() => setOpenDone(false)}>Cancel</Button>
                     <Button onClick={handleDoneOrder}>Done</Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={openFail} onClose={() => setOpenFail(false)}>
+                <DialogTitle>Out of stock</DialogTitle>
+                <DialogContent
+                    sx={{
+                        '& .MuiTextField-root': { m: 1, width: '25ch' },
+                    }}
+                >
+                    <DialogContentText>Get order fails. There are not enough products in stock.</DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpenFail(false)}>I understand</Button>
                 </DialogActions>
             </Dialog>
         </React.Fragment>
