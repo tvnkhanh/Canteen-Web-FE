@@ -76,12 +76,11 @@ export default function PaymentMethod() {
     }, []);
 
     const handleAdd = async () => {
-        await axios.post(`http://localhost:8080/card/save`, {
+        await axios.post(`http://localhost:8080/card/save/${localStorage.getItem('userId')}`, {
             cardHolder: cardHolder,
             creditCardNum: creditCardNum,
             validThru: validThru,
             cvv: cvv,
-            userId: localStorage.getItem('userId'),
         });
 
         setOpenAdd(false);
@@ -89,13 +88,12 @@ export default function PaymentMethod() {
     };
 
     const handleEdit = async () => {
-        await axios.post(`http://localhost:8080/card/update`, {
+        await axios.post(`http://localhost:8080/card/update/${localStorage.getItem('userId')}`, {
             pinfoId: cardInfo.pinfoId,
             cardHolder: cardHolder === '' ? cardInfo.cardHolder : cardHolder,
             creditCardNum: creditCardNum === '' ? cardInfo.creditCardNum : creditCardNum,
             validThru: validThru === '' ? cardInfo.validThru : validThru,
             cvv: cvv === '' ? cardInfo.cvv : cvv,
-            userId: localStorage.getItem('userId'),
         });
 
         setOpenEdit(false);
@@ -207,11 +205,11 @@ export default function PaymentMethod() {
                             <TextField
                                 required
                                 id="expDate"
-                                label="Expiry date"
+                                label="Expiry date (YY-MM)"
                                 fullWidth
                                 autoComplete="cc-exp"
                                 variant="standard"
-                                onChange={(e) => setValidThru('20' + e.target.value + '-00')}
+                                onChange={(e) => setValidThru('20' + e.target.value + '-15')}
                             />
                         </Grid>
                         <Grid item xs={12} md={6}>

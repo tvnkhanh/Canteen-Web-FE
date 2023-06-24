@@ -13,7 +13,17 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import { Alert, Collapse, FormHelperText, IconButton } from '@mui/material';
+import {
+    Alert,
+    Collapse,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    FormHelperText,
+    IconButton,
+} from '@mui/material';
 import { Colors } from '~/styles/theme';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -40,22 +50,21 @@ export default function SignUp() {
     const navigate = useNavigate();
     const [openErrEmail, setOpenErrEmail] = React.useState();
     const [openPasswordLength, setOpenPasswordLength] = React.useState();
+    const [openNotify, setOpenNotify] = React.useState(false);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
 
         const account = {
             email: data.get('email'),
             password: data.get('password'),
-            roleId: 2,
             status: 'ACTIVE',
         };
 
         const user = {
             firstName: data.get('firstName'),
             lastName: data.get('lastName'),
-            email: data.get('email'),
             phoneNumber: data.get('phone'),
             gender: 'male',
         };
@@ -64,15 +73,18 @@ export default function SignUp() {
             setOpenPasswordLength(true);
         }
 
-        axios.get(`http://localhost:8080/user/${data.get('email')}`).then((response) => {
+        await axios.get(`http://localhost:8080/user/${data.get('email')}`).then(async (response) => {
             if (response.status === 200 && response.data.length !== 0) {
                 setOpenErrEmail(true);
             } else {
-                axios.post('http://localhost:8080/account', account).then((response) => {
-                    axios.post('http://localhost:8080/user', user).then((response) => {
+                await axios.post('http://localhost:8080/account', account).then(async (response) => {
+                    await axios.post(`http://localhost:8080/user/${data.get('email')}`, user).then(async (response) => {
+                        await axios.post(`http://localhost:8080/new-order/${response.data.userId}`, {
+                            status: 'PENDING',
+                        });
                         if (response.status === 200) {
                             successAccount.email = response.data.email;
-                            navigate('/signin');
+                            setOpenNotify(true);
                         }
                     });
                 });
@@ -221,6 +233,20 @@ export default function SignUp() {
                         </Alert>
                     </Collapse>
                 </Box>
+
+                <Dialog open={openNotify} onClose={() => setOpenNotify(false)}>
+                    <DialogTitle>Successful</DialogTitle>
+                    <DialogContent
+                        sx={{
+                            '& .MuiTextField-root': { m: 1, width: '25ch' },
+                        }}
+                    >
+                        <DialogContentText>You have successfully signed up.</DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => navigate('/signin')}>Go To Login</Button>
+                    </DialogActions>
+                </Dialog>
             </Container>
         </ThemeProvider>
     );

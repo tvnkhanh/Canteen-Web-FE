@@ -40,9 +40,14 @@ export default function AppBarDesktop({ matches }) {
                         </ListItemButton>
                     </Link>
 
-                    <ListItemButton>
-                        <ListItemText primary="Categories" />
-                    </ListItemButton>
+                    <Link
+                        to="/categories"
+                        style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', color: Colors.black }}
+                    >
+                        <ListItemButton>
+                            <ListItemText primary="Categories" />
+                        </ListItemButton>
+                    </Link>
 
                     <ListItemButton href="#product">
                         <ListItemText primary="Products" />

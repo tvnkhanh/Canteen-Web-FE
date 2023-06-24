@@ -49,13 +49,7 @@ export default function Checkout() {
         setActiveStep(activeStep + 1);
         if (activeStep === 2) {
             await axios
-                .post('http://localhost:8080/make-order', {
-                    orderId: localStorage.getItem('orderId'),
-                    status: 'PENDING',
-                    userId: localStorage.getItem('userId'),
-                    paymentId: orders[0].paymentId,
-                    deliveryId: orders[0].deliveryId,
-                })
+                .post(`http://localhost:8080/make-order/${localStorage.getItem('orderId')}`)
                 .then(async (response) => {
                     if (response.data === 'OK') {
                         await axios.post('http://localhost:8080/set-order-time', {
@@ -63,6 +57,10 @@ export default function Checkout() {
                             address: address,
                             departureTime: null,
                             arrival: null,
+                        });
+
+                        await axios.post(`http://localhost:8080/new-order/${response.data.userId}`, {
+                            status: 'PENDING',
                         });
                     } else {
                         setOpenFail(true);

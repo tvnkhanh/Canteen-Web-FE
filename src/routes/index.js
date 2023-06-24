@@ -13,6 +13,7 @@ import PaymentMethodEdit from '~/pages/Profile/PaymentMethodEdit';
 import Search from '~/pages/Search';
 import SignIn from '~/pages/SignIn';
 import SignUp from '~/pages/SignUp';
+import Categories from '~/pages/Categories';
 
 const publicRoutes = [
     { path: '/', component: Home, layout: DefaultLayout },
@@ -25,6 +26,7 @@ const publicRoutes = [
     { path: '/management/user', component: UserManagement, layout: DefaultLayout },
     { path: '/management/orders', component: OrderManagement, layout: DefaultLayout },
     { path: '/search', component: Search, layout: DefaultLayout },
+    { path: '/categories', component: Categories, layout: DefaultLayout },
     { path: 'profile/my-orders', component: MyOrders, layout: DefaultLayout },
     { path: '/profile/address', component: AddressEdit, layout: DefaultLayout },
     { path: '/profile/payment', component: PaymentMethodEdit, layout: DefaultLayout },

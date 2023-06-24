@@ -53,35 +53,32 @@ export default function Address() {
         setOpenDelete(false);
     };
 
-    function getData() {
-        axios.get(`http://localhost:8080/user/address/${localStorage.getItem('userId')}`).then((response) => {
+    const getData = async () => {
+        await axios.get(`http://localhost:8080/user/address/${localStorage.getItem('userId')}`).then((response) => {
             setData(response.data);
         });
 
-        axios.get(`http://localhost:8080/get-user/${localStorage.getItem('userId')}`).then((response) => {
+        await axios.get(`http://localhost:8080/get-user/${localStorage.getItem('userId')}`).then((response) => {
             setUser(response.data);
         });
-    }
+    };
 
-    const handleAdd = () => {
+    const handleAdd = async () => {
         if (phone !== '') {
             user.phoneNumber = phone;
         }
 
-        axios.post(`http://localhost:8080/address/save`, {
+        await axios.post(`http://localhost:8080/address/save/${localStorage.getItem('userId')}`, {
             address: address,
-            userId: localStorage.getItem('userId'),
         });
-        axios.post('http://localhost:8080/user', user);
 
         setOpenAdd(false);
         getData();
     };
 
-    const handleDelete = () => {
-        axios.post('http://localhost:8080/address/delete', {
+    const handleDelete = async () => {
+        await axios.post(`http://localhost:8080/address/delete/${localStorage.getItem('userId')}`, {
             address: oldAddress,
-            userId: localStorage.getItem('userId'),
         });
 
         setOpenDelete(false);

@@ -43,21 +43,17 @@ export function CartComponent() {
                             setOrders(response.data);
                         });
                 } else {
-                    await axios.post('http://localhost:8080/init-delivery', {}).then(async (response) => {
-                        await axios
-                            .post('http://localhost:8080/new-order', {
-                                status: 'PENDING',
-                                userId: localStorage.getItem('userId'),
-                                paymentId: 2,
-                            })
-                            .then(async (response) => {
-                                await axios
-                                    .get(`http://localhost:8080/carts/${localStorage.getItem('userId')}`)
-                                    .then((response) => {
-                                        setOrders(response.data);
-                                    });
-                            });
-                    });
+                    await axios
+                        .post(`http://localhost:8080/new-order/${localStorage.getItem('userId')}`, {
+                            status: 'PENDING',
+                        })
+                        .then(async (response) => {
+                            await axios
+                                .get(`http://localhost:8080/carts/${localStorage.getItem('userId')}`)
+                                .then((response) => {
+                                    setOrders(response.data);
+                                });
+                        });
                 }
             });
     }, [orders]);

@@ -121,13 +121,7 @@ export default function PaymentMethod() {
     console.log(1);
 
     const handleCancel = async () => {
-        await axios.post('http://localhost:8080/cancel-order', {
-            orderId: item1.orderId,
-            status: item1.status,
-            userId: localStorage.getItem('userId'),
-            paymentId: item1.paymentId,
-            deliveryId: item1.deliveryId,
-        });
+        await axios.post(`http://localhost:8080/cancel-order/${item1.orderId}`);
 
         setOpenCancel(false);
         setOpenSuccessCancel(true);

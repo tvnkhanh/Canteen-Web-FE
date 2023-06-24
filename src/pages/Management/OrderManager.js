@@ -83,13 +83,7 @@ export default function OrderManager() {
 
     const handleCancelOrder = async () => {
         if (item3.status === 'ORDER' || item3.status === 'RECEIVED') {
-            await axios.post('http://localhost:8080/cancel-order', {
-                orderId: item3.orderId,
-                status: item3.status,
-                userId: localStorage.getItem('userId'),
-                paymentId: item3.paymentId,
-                deliveryId: item3.deliveryId,
-            });
+            await axios.post(`http://localhost:8080/cancel-order${item3.orderId}`);
         } else {
             setOpenCancelNotify(true);
         }
@@ -99,39 +93,25 @@ export default function OrderManager() {
     };
 
     const handleGetOrder = async () => {
-        await axios
-            .post('http://localhost:8080/get-order', {
-                orderId: item1.orderId,
-                status: item1.status,
-                userId: localStorage.getItem('userId'),
-                paymentId: item1.paymentId,
-                deliveryId: item1.deliveryId,
-            })
-            .then(async (response) => {
-                if (response.data === 'OK') {
-                    await axios.post('http://localhost:8080/set-time', {
-                        deliveryId: item1.deliveryId,
-                        address: item1.address,
-                        departureTime: item1.departureTime,
-                        arrival: item1.arrival,
-                    });
-                } else {
-                    setOpenFail(true);
-                }
-            });
+        await axios.post(`http://localhost:8080/get-order/${item1.orderId}`).then(async (response) => {
+            if (response.data === 'OK') {
+                await axios.post('http://localhost:8080/set-time', {
+                    deliveryId: item1.deliveryId,
+                    address: item1.address,
+                    departureTime: item1.departureTime,
+                    arrival: item1.arrival,
+                });
+            } else {
+                setOpenFail(true);
+            }
+        });
 
         setOpenGet(false);
         getData();
     };
 
     const handleDoneOrder = async () => {
-        await axios.post('http://localhost:8080/done-order', {
-            orderId: item2.orderId,
-            status: item2.status,
-            userId: localStorage.getItem('userId'),
-            paymentId: item2.paymentId,
-            deliveryId: item2.deliveryId,
-        });
+        await axios.post(`http://localhost:8080/done-order/${item2.orderId}`);
 
         await axios.post('http://localhost:8080/set-arrival-time', {
             deliveryId: item2.deliveryId,

@@ -24,7 +24,7 @@ export default function Actions({ matches }) {
     //                         orders = response.data;
     //                         console.log(response.data);
     //                     } else {
-    //                         await axios.post('http://localhost:8080/init-delivery', {}).then(async (response) => {
+    //
     //                             await axios
     //                                 .post('http://localhost:8080/new-order', {
     //                                     status: 'PENDING',
@@ -38,7 +38,7 @@ export default function Actions({ matches }) {
     //                                             orders = response.data;
     //                                         });
     //                                 });
-    //                         });
+    //
     //                     }
     //                 });
     //         });
